@@ -46,3 +46,6 @@ Build the Windows app:
 pyinstaller AtlasOS.spec
 
 Then rebuild the installer with installer\AtlasOS.iss.
+
+
+*TYPE /help FOR A LIST OF COMMANDS, INCLUDING HOW TO WIPE MEMORY*
