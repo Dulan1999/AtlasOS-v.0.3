@@ -1,7 +1,6 @@
 .venv
 build
 dist
-*.exe
 .env
 config.json
 atlas/knowledge/knowledge.json
