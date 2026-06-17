@@ -1,0 +1,11 @@
+.venv
+build
+dist
+*.exe
+.env
+config.json
+atlas/knowledge/knowledge.json
+atlas/memory/memories.json
+atlas/procedures/procedures.json
+__pycache__/
+*.pyc

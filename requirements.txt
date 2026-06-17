@@ -1,0 +1,6 @@
+python-dotenv
+ollama
+pyttsx3
+sounddevice
+scipy
+faster-whisper

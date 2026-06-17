@@ -1,0 +1,6 @@
+{
+    "user_name": "Your Name",
+    "assistant_name": "Atlas",
+    "local_model": "qwen2.5:7b",
+    "setup_complete": true
+}
