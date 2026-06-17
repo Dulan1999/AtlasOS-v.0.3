@@ -2,7 +2,7 @@ AtlasOS
 
 Recommended first-time setup:
 
-1. Run AtlasOS_Setup.exe.
+1. Go to /Atlas-v.03-master/dist/
 2. Launch AtlasOS.exe.
 3. Follow the setup window:
    - Enter your name.
