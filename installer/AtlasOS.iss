@@ -1,5 +1,5 @@
 #define MyAppName "AtlasOS"
-#define MyAppVersion "0.2.7"
+#define MyAppVersion "0.3"
 #define MyAppPublisher "Dylan Martin"
 #define MyAppExeName "AtlasOS.exe"
 
