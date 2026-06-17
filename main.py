@@ -5,9 +5,15 @@ load_dotenv()
 
 from atlas.config import get_user_name, get_assistant_name
 from atlas.brain.chat import get_atlas_reply
-from atlas.knowledge.knowledge_manager import list_facts, delete_fact, wipe_semantic_memory
-from atlas.memory.memory_manager import list_episodes, add_episode, delete_episode, wipe_episodic_memory
-from atlas.procedures.procedure_manager import list_procedures, add_procedure, delete_procedure, wipe_procedural_memory
+from atlas.knowledge.knowledge_manager import list_facts, delete_fact
+from atlas.memory.control import (
+    WIPE_WARNING,
+    is_wipe_confirmation,
+    is_wipe_request,
+    wipe_long_term_memory,
+)
+from atlas.memory.memory_manager import list_episodes, add_episode, delete_episode
+from atlas.procedures.procedure_manager import list_procedures, add_procedure, delete_procedure
 from atlas.speech.listen import listen
 from atlas.speech.speak import speak
 
@@ -113,6 +119,8 @@ Procedural memory:
   /delete_procedure procedure_id
 
   Danger zone:
+  /wipe
+  /wipe CONFIRM
   /wipe_memory
   /wipe_memory CONFIRM
 
@@ -264,9 +272,7 @@ def handle_add_procedure(user_input):
     print(f"{ASSISTANT_NAME} Procedural Memory: Saved procedure '{procedure['name']}' with ID {procedure['id']}.\n")
 
 def wipe_all_memory():
-    wipe_semantic_memory()
-    wipe_episodic_memory()
-    wipe_procedural_memory()
+    wipe_long_term_memory()
     messages.clear()
 
     print(f"{ASSISTANT_NAME} Memory: All memory has been wiped.\n")
@@ -349,12 +355,12 @@ while True:
 
         continue
 
-    if user_input.lower() == "/wipe_memory":
-        print(f"{ASSISTANT_NAME} Memory: This will permanently wipe semantic, episodic, procedural, and current working memory.")
-        print("Type /wipe_memory CONFIRM to continue.\n")
+    if is_wipe_request(user_input):
+        print(f"{ASSISTANT_NAME} Memory: {WIPE_WARNING}")
+        print("Type /wipe CONFIRM to continue.\n")
         continue
 
-    if user_input == "/wipe_memory CONFIRM":
+    if is_wipe_confirmation(user_input):
         wipe_all_memory()
         continue
     

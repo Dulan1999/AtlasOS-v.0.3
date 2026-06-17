@@ -19,12 +19,23 @@ from atlas.config import (
 )
 from atlas.brain.chat import get_atlas_reply
 from atlas.knowledge.knowledge_manager import list_facts
+from atlas.memory.control import (
+    WIPE_WARNING,
+    is_wipe_confirmation,
+    is_wipe_request,
+    wipe_long_term_memory,
+)
 
 
 USER_NAME = "User"
 ASSISTANT_NAME = "Atlas"
 
 messages = []
+
+
+def wipe_all_memory():
+    wipe_long_term_memory()
+    messages.clear()
 
 
 def speak_text(text):
@@ -394,12 +405,29 @@ class AtlasApp:
         self.user_input.delete(0, tk.END)
         self.add_message(USER_NAME, user_text)
 
+        if self.handle_command(user_text):
+            return
+
         thread = threading.Thread(
             target=self.get_assistant_response,
             args=(user_text,),
             daemon=True
         )
         thread.start()
+
+    def handle_command(self, user_text):
+        if is_wipe_request(user_text):
+            self.add_message(f"{ASSISTANT_NAME} Memory", f"{WIPE_WARNING}\nType /wipe CONFIRM to continue.")
+            self.set_status("Ready.")
+            return True
+
+        if is_wipe_confirmation(user_text):
+            wipe_all_memory()
+            self.add_message(f"{ASSISTANT_NAME} Memory", "All memory has been wiped.")
+            self.set_status("Ready.")
+            return True
+
+        return False
 
     def get_assistant_response(self, user_text):
         self.root.after(0, lambda: self.set_busy(True))
